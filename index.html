@@ -1,0 +1,926 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МедИнж — Импланты для эндоваскулярной хирургии</title>
+  <style>
+    /* ===== ПЕРЕМЕННЫЕ ===== */
+    :root {
+      --primary: #0a4d8c;
+      --primary-light: #1565c0;
+      --primary-dark: #063563;
+      --accent: #00a3e0;
+      --bg-light: #f0f6fc;
+      --bg-gray: #f5f7fa;
+      --text: #1a2332;
+      --text-light: #5a6a7e;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --green: #2e7d32;
+      --green-bg: #e8f5e9;
+      --orange: #ef6c00;
+      --orange-bg: #fff3e0;
+      --radius: 10px;
+      --shadow: 0 2px 12px rgba(10,77,140,0.08);
+      --shadow-lg: 0 8px 30px rgba(10,77,140,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== ШАПКА ===== */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -1px;
+    }
+    .logo-text {
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--primary-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav a:hover { color: var(--primary); }
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -22px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.25s;
+    }
+    .nav a:hover::after { width: 100%; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(10,77,140,0.25);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 15px;
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--primary-dark);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(160deg, var(--bg-light) 0%, var(--white) 60%, var(--white) 100%);
+      padding: 64px 24px 80px;
+    }
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      color: var(--primary-dark);
+    }
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text-light);
+      margin-bottom: 28px;
+      max-width: 520px;
+    }
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .badge-dot.green { background: var(--green); }
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* 3D Viewer */
+    .viewer {
+      width: 100%;
+      height: 440px;
+      background: linear-gradient(145deg, #e8f4fc, #d4e8f5);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #c5dcef;
+    }
+    .viewer-icon {
+      font-size: 56px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+    .viewer-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .viewer-sub {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+    .viewer-controls {
+      position: absolute;
+      bottom: 16px;
+      display: flex;
+      gap: 8px;
+    }
+    .viewer-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid #c5dcef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+    .viewer-btn:hover {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ===== СЕКЦИИ ===== */
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 72px 24px;
+    }
+    .section-title {
+      font-size: 30px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+    }
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 16px;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== НАПРАВЛЕНИЯ ===== */
+    .directions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .direction-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .direction-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .direction-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+    .direction-card:hover::before { transform: scaleX(1); }
+    .direction-icon {
+      font-size: 40px;
+      margin-bottom: 18px;
+      display: block;
+    }
+    .direction-card h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--primary-dark);
+    }
+    .direction-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 18px;
+    }
+    .direction-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+    .direction-card:hover .direction-link { gap: 10px; }
+
+    /* ===== КЕЙС ===== */
+    .case-section {
+      background: var(--bg-gray);
+      padding: 72px 24px;
+    }
+    .case-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .case-label {
+      display: inline-block;
+      padding: 5px 14px;
+      background: var(--primary-light);
+      color: white;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .case-section h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+    }
+    .case-section p {
+      color: var(--text-light);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+    .case-metric {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .case-metric .big {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .case-metric .label {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-top: 10px;
+    }
+
+    /* ===== КЛИНИКИ ===== */
+    .clinics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .clinic-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      transition: all 0.25s;
+    }
+    .clinic-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+    .clinic-card h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+    .clinic-card .city {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* ===== НОВОСТИ ===== */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .news-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .news-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+      transform: translateY(-4px);
+    }
+    .news-date {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    .news-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .news-tag.news {
+      background: var(--bg-light);
+      color: var(--primary);
+    }
+    .news-tag.conf {
+      background: var(--orange-bg);
+      color: var(--orange);
+    }
+    .news-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+    .news-card p {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    /* ===== ФОРМА КП ===== */
+    .form-section {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      padding: 72px 24px;
+    }
+    .form-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .form-section h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 12px;
+    }
+    .form-section .form-sub {
+      color: rgba(255,255,255,0.75);
+      font-size: 15px;
+      margin-bottom: 40px;
+    }
+    .form-card {
+      background: white;
+      border-radius: 16px;
+      padding: 36px;
+      text-align: left;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-field { margin-bottom: 16px; }
+    .form-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg-gray);
+      transition: all 0.2s;
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(10,77,140,0.1);
+    }
+    .form-field textarea { resize: vertical; min-height: 80px; }
+    .form-card .btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+    }
+    .form-success {
+      display: none;
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--green-bg);
+      border-radius: 8px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* ===== ФУТЕР ===== */
+    .footer {
+      background: #0d1b2a;
+      color: #8a9bab;
+      padding: 56px 24px 24px;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand .logo-text {
+      color: white;
+      margin-bottom: 14px;
+      font-size: 22px;
+    }
+    .footer-brand p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .footer-col h5 {
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      color: #8a9bab;
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: white; }
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1a2a3d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ===== АДАПТИВ ===== */
+    @media (max-width: 1024px) {
+      .directions-grid { grid-template-columns: repeat(2, 1fr); }
+      .clinics-grid { grid-template-columns: repeat(2, 1fr); }
+      .news-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .mobile-toggle { display: flex; flex-direction: column; gap: 4px; }
+      .mobile-toggle span {
+        width: 24px; height: 2px; background: var(--primary-dark); border-radius: 2px;
+      }
+      .nav.mobile-open {
+        display: flex;
+        position: absolute;
+        top: 72px; left: 0; right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 20px 24px;
+        gap: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav.mobile-open a { padding: 6px 0; }
+      .nav.mobile-open a::after { display: none; }
+      .nav.mobile-open .btn { margin-top: 8px; }
+      .hero { padding: 40px 20px 56px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+      .hero-desc { margin-left: auto; margin-right: auto; }
+      .badges { justify-content: center; }
+      .cta-group { justify-content: center; }
+      .viewer { height: 280px; }
+      .section { padding: 48px 20px; }
+      .section-title { font-size: 24px; }
+      .directions-grid { grid-template-columns: 1fr; }
+      .case-inner { grid-template-columns: 1fr; gap: 32px; }
+      .clinics-grid { grid-template-columns: 1fr; }
+      .news-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 24px; }
+      .header-inner .btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ШАПКА ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">МИ</div>
+        <span class="logo-text">МедИнж</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#about">О компании</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#docs">Документация</a>
+        <a href="#partners">Партнёрам</a>
+        <a href="#news">Новости</a>
+        <a href="#contacts">Контакты</a>
+        <a href="#request" class="btn btn-primary">Запросить КП</a>
+      </nav>
+      <button class="mobile-toggle" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Импланты для эндоваскулярной хирургии</h1>
+        <p class="hero-desc">Сертифицировано в ЕС. Собственное производство в России. Полный цикл R&D — от разработки до клинических испытаний.</p>
+        <div class="badges">
+          <span class="badge"><span class="badge-dot green"></span>CE-сертификат</span>
+          <span class="badge"><span class="badge-dot green"></span>ISO 13485</span>
+          <span class="badge"><span class="badge-dot green"></span>РЗН РФ</span>
+          <span class="badge"><span class="badge-dot"></span>15+ лет на рынке</span>
+        </div>
+        <div class="cta-group">
+          <a href="#catalog" class="btn btn-primary btn-lg">Каталог продукции</a>
+          <a href="#request" class="btn btn-outline btn-lg">Запросить КП</a>
+        </div>
+      </div>
+      <div class="viewer">
+        <div class="viewer-icon">&#128300;</div>
+        <div class="viewer-label">3D-вьювер изделия</div>
+        <div class="viewer-sub">Вращение · Слои · Масштаб</div>
+        <div class="viewer-controls">
+          <div class="viewer-btn">&#8634;</div>
+          <div class="viewer-btn">&#10010;</div>
+          <div class="viewer-btn">&#10134;</div>
+          <div class="viewer-btn">&#9635;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== НАПРАВЛЕНИЯ ===== -->
+  <section class="section" id="catalog">
+    <h2 class="section-title">Направления</h2>
+    <p class="section-subtitle">Полный спектр имплантируемых изделий для сердечно-сосудистой системы</p>
+    <div class="directions-grid">
+      <a href="#" class="direction-card">
+        <span class="direction-icon">&#10084;&#65039;</span>
+        <h3>Кардиохирургия</h3>
+        <p>Транскатетерные клапаны, окклюдеры, системы доставки для минимально инвазивных операций на сердце.</p>
+        <span class="direction-link">Перейти &rarr;</span>
+      </a>
+      <a href="#" class="direction-card">
+        <span class="direction-icon">&#129477;</span>
+        <h3>Эндоваскулярная хирургия</h3>
+        <p>Стенты коронарные и периферические, проводники, катетеры, эмболизационные устройства.</p>
+        <span class="direction-link">Перейти &rarr;</span>
+      </a>
+      <a href="#" class="direction-card">
+        <span class="direction-icon">&#129504;</span>
+        <h3>Нейрохирургия</h3>
+        <p>Устройства для церебральных сосудов, микрокатетеры для нейроэндоваскулярных вмешательств.</p>
+        <span class="direction-link">Перейти &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== КЕЙС ===== -->
+  <section class="case-section" id="cases">
+    <div class="case-inner">
+      <div>
+        <span class="case-label">Кейс из практики</span>
+        <h3>Установка окклюдера в ФГБУ «НМИЦ им. Алмазова»</h3>
+        <p>Использование окклюдера «МедИнж» OM-28 с системой доставки SD-2 для закрытия дефекта межпредсердной перегородки.</p>
+        <a href="#" class="btn btn-primary">Смотреть кейс</a>
+      </div>
+      <div class="case-metric">
+        <div class="big">&minus;20%</div>
+        <div class="label">Снижение времени операции</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== КЛИНИКИ ===== -->
+  <section class="section" id="partners">
+    <h2 class="section-title">Клиники-партнёры</h2>
+    <p class="section-subtitle">Изделия «МедИнж» применяются в ведущих кардиохирургических центрах России</p>
+    <div class="clinics-grid">
+      <div class="clinic-card">
+        <h4>НМИЦ им. Алмазова</h4>
+        <div class="city">Санкт-Петербург</div>
+      </div>
+      <div class="clinic-card">
+        <h4>НМИЦ им. Бакулева</h4>
+        <div class="city">Москва</div>
+      </div>
+      <div class="clinic-card">
+        <h4>НМИЦ им. Мешалкина</h4>
+        <div class="city">Новосибирск</div>
+      </div>
+      <div class="clinic-card">
+        <h4>Клиника Сеченова</h4>
+        <div class="city">Москва</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== НОВОСТИ ===== -->
+  <section class="section" id="news" style="background: var(--bg-gray);">
+    <div style="max-width: 1280px; margin: 0 auto;">
+      <h2 class="section-title">Новости и события</h2>
+      <p class="section-subtitle">Последние разработки, конференции и публикации</p>
+      <div class="news-grid">
+        <div class="news-card">
+          <div class="news-date">15.09.2026 <span class="news-tag news">Новость</span></div>
+          <h4>Новая линейка коронарных стентов</h4>
+          <p>«МедИнж» получил РУ на стент с биодеградируемым полимерным покрытием нового поколения.</p>
+        </div>
+        <div class="news-card">
+          <div class="news-date">01.09.2026 <span class="news-tag conf">Конференция</span></div>
+          <h4>Russia 2026 — эндоваскулярная хирургия</h4>
+          <p>Приглашаем посетить стенд «МедИнж» на междисциплинарном конгрессе.</p>
+        </div>
+        <div class="news-card">
+          <div class="news-date">20.08.2026 <span class="news-tag news">Новость</span></div>
+          <h4>Сертификация CE на новый окклюдер</h4>
+          <p>Получен европейский сертификат на окклюдер нового поколения для закрытия ДМПП.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ФОРМА КП ===== -->
+  <section class="form-section" id="request">
+    <div class="form-inner">
+      <h2>Запросите коммерческое предложение</h2>
+      <p class="form-sub">Заполните форму — наш специалист свяжется с вами в течение рабочего дня и подготовит КП под ваши задачи.</p>
+      <div class="form-card">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Имя</label>
+            <input type="text" id="kp-name" placeholder="Иван Петров">
+          </div>
+          <div class="form-field">
+            <label>Организация</label>
+            <input type="text" id="kp-org" placeholder="НМИЦ им. Бакулева">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" id="kp-email" placeholder="example@mail.ru">
+          </div>
+          <div class="form-field">
+            <label>Телефон</label>
+            <input type="tel" id="kp-phone" placeholder="+7 (___) ___-__-__">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Тип обращения</label>
+          <select id="kp-type">
+            <option value="kp">Запрос коммерческого предложения</option>
+            <option value="docs">Запрос документации (РУ, сертификаты)</option>
+            <option value="consult">Консультация с инженером</option>
+            <option value="partner">Сотрудничество / дистрибуция</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Комментарий</label>
+          <textarea id="kp-comment" placeholder="Какие изделия вас интересуют?"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="submitKP()">Отправить заявку</button>
+        <div class="form-success" id="kp-success">Спасибо! Ваша заявка принята. Менеджер свяжется с вами в течение рабочего дня.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ФУТЕР ===== -->
+  <footer class="footer" id="contacts">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo-text">МедИнж</div>
+        <p>Научно-производственное предприятие. Импланты и устройства для эндоваскулярной хирургии. Спасаем жизни с 1994 года.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Каталог</h5>
+        <a href="#">Кардиохирургия</a>
+        <a href="#">Эндоваскулярная</a>
+        <a href="#">Нейрохирургия</a>
+        <a href="#">Расходные материалы</a>
+      </div>
+      <div class="footer-col">
+        <h5>Компания</h5>
+        <a href="#">О нас</a>
+        <a href="#">Кейсы</a>
+        <a href="#">Документация</a>
+        <a href="#">Новости</a>
+      </div>
+      <div class="footer-col">
+        <h5>Контакты</h5>
+        <a href="tel:+78412934763">+7 (8412) 93-47-63</a>
+        <a href="mailto:meng@sura.ru">meng@sura.ru</a>
+        <a href="#">г. Пенза, ул. Центральная, 1</a>
+        <a href="#">VK / Telegram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 ООО «МедИнж». Все права защищены. Не является публичной офертой.</span>
+    </div>
+  </footer>
+
+  <!-- ===== JS ===== -->
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('nav');
+      nav.classList.toggle('mobile-open');
+    }
+
+    function submitKP() {
+      const name = document.getElementById('kp-name').value;
+      const email = document.getElementById('kp-email').value;
+      if (!name || !email) {
+        alert('Заполните имя и email');
+        return;
+      }
+      const success = document.getElementById('kp-success');
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => { success.style.display = 'none'; }, 5000);
+    }
+
+    // Плавная прокрутка
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const id = link.getAttribute('href');
+        if (id.length > 1) {
+          const el = document.querySelector(id);
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('nav').classList.remove('mobile-open');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
